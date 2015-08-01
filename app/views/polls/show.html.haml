@@ -1,0 +1,45 @@
+%h1=@poll.title
+
+/ Nav tabs
+%ul.nav.nav-tabs
+  %li.active
+    =link_to "Questions", "#tab-questions", data: { toggle: "tab" }
+  %li
+    =link_to "Replies", "#tab-replies", data: { toggle: "tab" }
+  %li
+    =link_to "Stats", "#tab-stats", data: { toggle: "tab" }
+
+.tab-content
+  #tab-questions.tab-pane.active
+    %h2 Questions
+
+    %ul
+      -@poll.questions.each do |question|
+        %li
+          =question.title
+          %ul
+            -question.possible_answers.each do |possible_answer|
+              %li=possible_answer.title
+
+    %p.btn-group
+      = link_to 'Edit', edit_poll_path(@poll), class: "btn btn-default" if admin?
+      = link_to 'Back', polls_path, class: "btn btn-default" if admin?
+      = link_to 'Add question', new_poll_question_path(@poll), class: "btn btn-default" if admin?
+
+  #tab-replies.tab-pane
+    %h2 Replies
+
+    -@poll.replies.each do |reply|
+      .col-md-6
+        .panel.panel-default
+          .panel-heading.text-right
+            =time_ago_in_words reply.created_at
+          .panel-body
+            %dl
+              -reply.answers.each do |answer|
+                %dt=answer.question.try(:title)
+                %dd
+                  =answer.value.present? ? answer.value : (answer.possible_answer.nil? ? 'No Answer' : answer.possible_answer.try(:title))
+
+  #tab-stats.tab-pane
+    =render "stats"
