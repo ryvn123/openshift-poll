@@ -17,6 +17,7 @@
       -@poll.questions.each do |question|
         %li
           =question.title
+          =link_to '[Drop]', poll_question_path(@poll, question), method: :delete, class: "btn-xs btn-default" if admin?
           %ul
             -question.possible_answers.each do |possible_answer|
               %li=possible_answer.title
