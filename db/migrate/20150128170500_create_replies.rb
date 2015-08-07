@@ -5,6 +5,6 @@ class CreateReplies < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_foreign_key :replies, :polls
+    add_foreign_key :replies, :polls, on_delete: :cascade
   end
 end

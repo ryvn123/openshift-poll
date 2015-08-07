@@ -8,8 +8,8 @@ class CreateAnswers < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_foreign_key :answers, :replies
-    add_foreign_key :answers, :questions
-    add_foreign_key :answers, :possible_answers
+    add_foreign_key :answers, :replies, on_delete: :cascade
+    add_foreign_key :answers, :questions, on_delete: :cascade
+    add_foreign_key :answers, :possible_answers, on_delete: :cascade
   end
 end

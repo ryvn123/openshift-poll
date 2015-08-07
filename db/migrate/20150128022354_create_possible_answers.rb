@@ -6,6 +6,6 @@ class CreatePossibleAnswers < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_foreign_key :possible_answers, :questions
+    add_foreign_key :possible_answers, :questions, on_delete: :cascade
   end
 end
