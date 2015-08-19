@@ -19,9 +19,16 @@
         =f.radio_button :kind, option[1]
         =option[0]
 
-  =f.fields_for :possible_answers do |c|
-    %p
-      =c.text_field :title, class: "form-control", placeholder: "Enter a possible answer here"
+  %p
+    =f.fields_for :possible_answers do |c|
+      .form-group
+        .input-group
+          .input-group-addon
+            %strong +
+          =c.text_field :title, class: "form-control", placeholder: "Enter a possible answer here"
+          .input-group-addon
+            %small{:class => "small" } Correct Ans
+            =c.check_box :check, :checked => false
 
   %p
     = f.submit 'Save', class: "btn btn-primary"

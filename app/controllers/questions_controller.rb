@@ -59,7 +59,7 @@ class QuestionsController < ApplicationController
     end
 
     def question_params
-      params.require(:question).permit(:title, :kind, :poll_id, { possible_answers_attributes: [ :title, :question_id ] })
+      params.require(:question).permit(:title, :kind, :poll_id, { possible_answers_attributes: [ :title, :check, :question_id ] })
     end
 
     def set_kind_questions
