@@ -11,7 +11,7 @@ class RepliesController < ApplicationController
     @reply = @poll.replies.build reply_params
 
     if @reply.save
-      redirect_to @poll, notice: "Thank you for taking the poll."
+      redirect_to root_path, notice: "Thank you for taking the poll."
     else
       render :new
     end

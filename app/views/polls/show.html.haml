@@ -16,11 +16,17 @@
     %ul
       -@poll.questions.each do |question|
         %li
-          =question.title
+          %strong=question.title
           =link_to '[Drop]', poll_question_path(@poll, question), method: :delete, class: "btn-xs btn-default" if admin?
           %ul
             -question.possible_answers.each do |possible_answer|
-              %li=possible_answer.title
+              -if possible_answer.check?
+                %li
+                  %span{:class => 'glyphicon glyphicon-ok-circle' }
+                  =possible_answer.title
+              -else
+                %li=possible_answer.title  
+              
 
     %p.btn-group
       = link_to 'Edit', edit_poll_path(@poll), class: "btn btn-default" if admin?

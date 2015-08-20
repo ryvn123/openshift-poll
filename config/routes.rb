@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
+  #Workaround to get Poll Controller responsive
+  get 'poll/:id' => 'polls#show'
+
   resources :polls do
     resources :questions
     resources :replies, only: [ :new, :create ]

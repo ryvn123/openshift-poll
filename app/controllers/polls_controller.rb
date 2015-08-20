@@ -1,6 +1,6 @@
 class PollsController < ApplicationController
   before_action :set_poll, only: [:show, :edit, :update, :destroy]
-  #before_action :admin!, except: [ :index ]
+  before_action :admin!, except: [ :index ]
 
   # GET /polls
   # GET /polls.json
@@ -11,6 +11,7 @@ class PollsController < ApplicationController
   # GET /polls/1
   # GET /polls/1.json
   def show
+    
   end
 
   # GET /polls/new
