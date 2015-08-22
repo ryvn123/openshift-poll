@@ -2,9 +2,8 @@
   - if @question.errors.any?
     #error_explanation
       %h3= "#{pluralize(@question.errors.count, "error")} prohibited this question from being saved:"
-      %ul
-        - @question.errors.full_messages.each do |msg|
-          %li= msg
+      - @question.errors.full_messages.each do |msg|
+        =content_tag :div, msg, :id => "Error", class: "flash bg-success"
 
   %p
     = f.label :title

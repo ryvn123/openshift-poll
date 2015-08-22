@@ -3,6 +3,8 @@ class Question < ActiveRecord::Base
 
   has_many :possible_answers
   has_many :answers
+  
+  validates :title, :kind, presence: true
 
   accepts_nested_attributes_for :possible_answers, reject_if: proc { |attributes| attributes['title'].blank? }
 
