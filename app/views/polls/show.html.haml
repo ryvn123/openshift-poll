@@ -61,10 +61,21 @@
     -@poll.questions.each do |question|
       %strong=question.title
       
-      .progress
-        .progress-bar{"role" => "progressbar", "aria-valuenow" => "10", "aria-valuemin" => "0", "aria-valuemax" => "100",
-        "style" => "text-align:right; width:" + (question.answers.joins(:possible_answer).select {|r| r.possible_answer.check}.size.to_f / question.answers.count.to_f * 100).to_s + "%;"}
-          =question.answers.joins(:possible_answer).select {|r| r.possible_answer.check}.size
-          of
-          =question.answers.count
-          Correct answers .
+      -if question.kind == 'choice'
+        -correct_ans = question.answers.joins(:possible_answer).select {|r| r.possible_answer.check}.size
+        -total_ans = question.answers.count
+        .progress
+          .progress-bar.progress-bar-danger{"role" => "progressbar", "aria-valuenow" => "10", "aria-valuemin" => "0", "aria-valuemax" => "100",
+          "style" => "text-align:right; width:" + (100-(correct_ans.to_f / total_ans.to_f * 100)).to_s + "%;"}
+            =total_ans - correct_ans
+            of
+            =total_ans
+            Wrong answers .
+          
+      -if question.kind == 'open' && !question.nil?
+        %small="Open Ended"
+        %p
+          -question.answers.each do |answer|
+            %span
+              =answer.value
+              |
