@@ -8,6 +8,8 @@
     =link_to "Replies", "#tab-replies", data: { toggle: "tab" }
   %li
     =link_to "Stats", "#tab-stats", data: { toggle: "tab" }
+  %li
+    =link_to "Results Sheet", "#tab-results", data: { toggle: "tab" }
 
 .tab-content
   #tab-questions.tab-pane.active
@@ -50,3 +52,19 @@
 
   #tab-stats.tab-pane
     =render "stats"
+    
+  #tab-results.tab-pane
+    %h2 Results
+    
+    %span=@result
+
+    -@poll.questions.each do |question|
+      %strong=question.title
+      
+      .progress
+        .progress-bar{"role" => "progressbar", "aria-valuenow" => "10", "aria-valuemin" => "0", "aria-valuemax" => "100",
+        "style" => "text-align:right; width:" + (question.answers.joins(:possible_answer).select {|r| r.possible_answer.check}.size.to_f / question.answers.count.to_f * 100).to_s + "%;"}
+          =question.answers.joins(:possible_answer).select {|r| r.possible_answer.check}.size
+          of
+          =question.answers.count
+          Correct answers .
