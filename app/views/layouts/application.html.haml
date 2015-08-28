@@ -1,12 +1,13 @@
 !!!
 %html
   %head
-    %title CP2M Applications - Wykeith (c) 2015
+    %title Poll App - Wykeith (c) 2015
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag "https://www.google.com/jsapi"
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = javascript_include_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js'
     = csrf_meta_tags
+    %meta{"name"=>"viewport","content"=>"width=device-width, initial-scale=1"}
   %body
     =render "nav"
     .container
