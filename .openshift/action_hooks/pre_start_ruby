@@ -25,3 +25,10 @@ if ! [ "$(type -t set_env_var)" == "function" ]; then
     export RAILS_DB="mysql"
   fi
 fi
+
+#openshift Rack workaround
+
+if ! gem query -i -n rack -v ">1.6.0" ; then
+  cd $OPENSHIFT_HOMEDIR/app-root  
+  gem install rack
+fi
