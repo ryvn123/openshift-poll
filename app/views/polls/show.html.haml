@@ -46,7 +46,7 @@
           .panel-body
             %dl
               -reply.answers.each do |answer|
-                %dt{"class" => "text-capitalize"}=answer.question.try(:title)
+                %dt{"class" => "text-capitalize"}=truncate(answer.question.try(:title))
                 %dd
                   =answer.value.present? ? answer.value : (answer.possible_answer.nil? ? 'No Answer' : answer.possible_answer.try(:title))
 
