@@ -12,7 +12,7 @@
       %p.btn-group.btn-group-xs
         = link_to 'Edit', edit_poll_path(poll.id), class: "btn btn-default" if admin?
         = link_to 'Add question', new_poll_question_path(poll.id), class: "btn btn-default" if admin?
-        = link_to 'Delete', poll_path(poll.id), method: :delete, class: 'btn btn-default', data: {confirm: 'This will delete all questions in the poll. Are you sure?'} if admin?
+        = link_to 'Delete', poll_path(poll.id), method: :delete, class: "btn btn-default", data: {confirm: 'This will delete all questions in the poll. Are you sure?'} if admin?
         = link_to 'Take Poll', new_poll_reply_path(poll.id), class: "btn btn-default"
 
 -if admin?
