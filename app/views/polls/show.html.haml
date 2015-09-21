@@ -2,17 +2,19 @@
 
 / Nav tabs
 %ul.nav.nav-tabs
-  %li.active
+  %li
     =link_to "Questions", "#tab-questions", data: { toggle: "tab" }
-  %li
+  %li.active
     =link_to "Replies", "#tab-replies", data: { toggle: "tab" }
-  %li
-    =link_to "Stats", "#tab-stats", data: { toggle: "tab" }
-  %li
-    =link_to "Results", "#tab-results", data: { toggle: "tab" }
+
+  -if admin?
+    %li
+      =link_to "Stats", "#tab-stats", data: { toggle: "tab" }
+    %li
+      =link_to "Results", "#tab-results", data: { toggle: "tab" }
 
 .tab-content
-  #tab-questions.tab-pane.active
+  #tab-questions.tab-pane
     %h2 Questions
 
     %ul
@@ -22,7 +24,7 @@
           =link_to '[Drop]', poll_question_path(@poll, question), method: :delete, class: "btn-xs btn-default" if admin?
           %ul
             -question.possible_answers.each do |possible_answer|
-              -if possible_answer.check?
+              -if possible_answer.check? && admin?
                 %li
                   %span{:class => 'glyphicon glyphicon-ok-circle' }
                   =possible_answer.title
@@ -31,57 +33,79 @@
               
 
     %p.btn-group
-      = link_to 'Edit', edit_poll_path(@poll), class: "btn btn-default" if admin?
-      = link_to 'Back', polls_path, class: "btn btn-default" if admin?
+      = link_to 'Edit Topic', edit_poll_path(@poll), class: "btn btn-default" if admin?
       = link_to 'Add question', new_poll_question_path(@poll), class: "btn btn-default" if admin?
+      = link_to 'Take Poll', new_poll_reply_path(@poll), class: "btn btn-default"
 
-  #tab-replies.tab-pane
-    %h2 Replies
 
-    -@poll.replies.each do |reply|
-      .col-md-6
-        .panel.panel-default
-          .panel-heading.text-right
-            =time_ago_in_words reply.created_at
-          .panel-body
-            %dl
-              -reply.answers.each do |answer|
-                %dt{"class" => "text-capitalize"}=truncate(answer.question.try(:title))
-                %dd
-                  =answer.value.present? ? answer.value : (answer.possible_answer.nil? ? 'No Answer' : answer.possible_answer.try(:title))
+  -if admin?
+ 
+    #tab-replies.tab-pane.active
+      %h2 Replies
+  
+      -@poll.replies.each do |reply|
+        .col-md-6
+          .panel.panel-default
+            .panel-heading.text-right
+              =time_ago_in_words reply.created_at
+            .panel-body
+              %dl
+                -reply.answers.each do |answer|
+                  %dt{"class" => "text-capitalize"}=truncate(answer.question.try(:title))
+                  %dd
+                    -if !answer.possible_answer.try(:check)
+                      %span{:class => 'glyphicon glyphicon-remove alert-danger'}
+                    =answer.value.present? ? answer.value : (answer.possible_answer.nil? ? 'No Answer' : answer.possible_answer.try(:title))
 
-  #tab-stats.tab-pane
-    =render "stats"
+    #tab-results.tab-pane
+      %h2 All Results
     
-  #tab-results.tab-pane
-    %h2 Results
-    
-    %span=@result
+      -@poll.questions.each do |question|
+        %strong{"class" => "text-capitalize"}
+          =question.title
+  
+        -if question.kind == 'choice'
+          -correct_ans = question.answers.joins(:possible_answer).select {|r| r.possible_answer.check}.size
+          -total_ans = question.answers.count
+          .progress
+            .progress-bar.progress-bar-danger{"role" => "progressbar",
+            "style" => "text-align:right; width:" + (100-(correct_ans.to_f / total_ans.to_f * 100)).to_s + "%;"}
+              %b=total_ans - correct_ans
+              Incorrect of
+              %b=total_ans
+              total replies .
+            .progress-bar.progress-bar-info.progress-bar-striped{"role" => "progressbar",
+            "style" => "text-align:right; width:" + (correct_ans.to_f / total_ans.to_f * 100).to_s + "%;"}
+        -if question.kind == 'open' && !question.nil?
+          %small="Open Ended"
+          %p
+            -question.answers.each do |answer|
+              %span{"class" => "text-lowercase"}
+                -if answer.value.empty?
+                  na
+                -else
+                  =answer.value
+                %strong 
+                  |
 
-    -@poll.questions.each do |question|
-      %strong{"class" => "text-capitalize"}
-        =question.title
+    #tab-stats.tab-pane
+      =render "stats"
+
+  -else
+  
+    #tab-replies.tab-pane.active
+      %h2 Replies
       
-      -if question.kind == 'choice'
-        -correct_ans = question.answers.joins(:possible_answer).select {|r| r.possible_answer.check}.size
-        -total_ans = question.answers.count
-        .progress
-          .progress-bar.progress-bar-danger{"role" => "progressbar",
-          "style" => "text-align:right; width:" + (100-(correct_ans.to_f / total_ans.to_f * 100)).to_s + "%;"}
-            %b=total_ans - correct_ans
-            Incorrect of
-            %b=total_ans
-            total replies .
-          .progress-bar.progress-bar-info.progress-bar-striped{"role" => "progressbar",
-          "style" => "text-align:right; width:" + (correct_ans.to_f / total_ans.to_f * 100).to_s + "%;"}
-      -if question.kind == 'open' && !question.nil?
-        %small="Open Ended"
-        %p
-          -question.answers.each do |answer|
-            %span{"class" => "text-lowercase"}
-              -if answer.value.empty?
-                na
-              -else
-                =answer.value
-              %strong 
-                |
+      -@poll.replies.where('user_id=?',current_user.id).each do |reply|
+        .col-md-6
+          .panel.panel-default
+            .panel-heading.text-right
+              =time_ago_in_words reply.created_at
+            .panel-body
+              %dl
+                -reply.answers.each do |answer|
+                  %dt{"class" => "text-capitalize"}=truncate(answer.question.try(:title))
+                  %dd
+                    -if !answer.possible_answer.try(:check)
+                      %span{:class => 'glyphicon glyphicon-remove alert-danger'}
+                    =answer.value.present? ? answer.value : (answer.possible_answer.nil? ? 'No Answer' : answer.possible_answer.try(:title))

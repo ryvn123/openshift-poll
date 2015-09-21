@@ -4,7 +4,7 @@
   -@polls.each do |poll|
     %li
       %p
-        -if admin?
+        -if current_user
           =link_to poll.title, poll
         -else
           =poll.title
