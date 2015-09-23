@@ -37,26 +37,25 @@
       = link_to 'Add question', new_poll_question_path(@poll), class: "btn btn-default" if admin?
       = link_to 'Take Poll', new_poll_reply_path(@poll), class: "btn btn-default"
 
+  #tab-replies.tab-pane.active
+    %h2 Replies
+
+    -@pollreplies.each do |reply|
+      .col-md-6
+        .panel.panel-default
+          .panel-heading.text-right
+            =time_ago_in_words reply.created_at
+          .panel-body
+            %dl
+              -reply.answers.each do |answer|
+                %dt{"class" => "text-capitalize"}=truncate(answer.question.try(:title))
+                %dd
+                  -if !answer.possible_answer.try(:check)
+                    %span{:class => 'glyphicon glyphicon-remove alert-danger'}
+                  =answer.value.present? ? answer.value : (answer.possible_answer.nil? ? 'No Answer' : answer.possible_answer.try(:title))
 
   -if admin?
  
-    #tab-replies.tab-pane.active
-      %h2 Replies
-  
-      -@poll.replies.each do |reply|
-        .col-md-6
-          .panel.panel-default
-            .panel-heading.text-right
-              =time_ago_in_words reply.created_at
-            .panel-body
-              %dl
-                -reply.answers.each do |answer|
-                  %dt{"class" => "text-capitalize"}=truncate(answer.question.try(:title))
-                  %dd
-                    -if !answer.possible_answer.try(:check)
-                      %span{:class => 'glyphicon glyphicon-remove alert-danger'}
-                    =answer.value.present? ? answer.value : (answer.possible_answer.nil? ? 'No Answer' : answer.possible_answer.try(:title))
-
     #tab-results.tab-pane
       %h2 All Results
     
@@ -90,22 +89,3 @@
 
     #tab-stats.tab-pane
       =render "stats"
-
-  -else
-  
-    #tab-replies.tab-pane.active
-      %h2 Replies
-      
-      -@poll.replies.where('user_id=?',current_user.id).each do |reply|
-        .col-md-6
-          .panel.panel-default
-            .panel-heading.text-right
-              =time_ago_in_words reply.created_at
-            .panel-body
-              %dl
-                -reply.answers.each do |answer|
-                  %dt{"class" => "text-capitalize"}=truncate(answer.question.try(:title))
-                  %dd
-                    -if !answer.possible_answer.try(:check)
-                      %span{:class => 'glyphicon glyphicon-remove alert-danger'}
-                    =answer.value.present? ? answer.value : (answer.possible_answer.nil? ? 'No Answer' : answer.possible_answer.try(:title))

@@ -11,6 +11,11 @@ class PollsController < ApplicationController
   # GET /polls/1
   # GET /polls/1.json
   def show
+    if current_user && current_user.admin?
+      @pollreplies = @poll.replies
+    else
+      @pollreplies = @poll.replies.where('user_id=?',current_user.id)
+    end
   end
 
   # GET /polls/new

@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20150201052456) do
   add_index "possible_answers", ["question_id"], name: "index_possible_answers_on_question_id"
 
   create_table "questions", force: :cascade do |t|
-    t.string   "title"
+    t.text     "title"
     t.string   "kind"
     t.integer  "poll_id"
     t.datetime "created_at", null: false
