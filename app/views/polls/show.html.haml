@@ -22,15 +22,15 @@
         %li
           %strong=question.title
           =link_to '[Drop]', poll_question_path(@poll, question), method: :delete, class: "btn-xs btn-default" if admin?
-          %ul
-            -question.possible_answers.each do |possible_answer|
-              -if possible_answer.check? && admin?
-                %li
-                  %span{:class => 'glyphicon glyphicon-ok-circle' }
-                  =possible_answer.title
-              -else
-                %li=possible_answer.title  
-              
+          -if question.kind == 'choice'
+            %ul
+              -question.possible_answers.each do |possible_answer|
+                -if possible_answer.check? && admin?
+                  %li
+                    %span{:class => 'glyphicon glyphicon-ok-circle' }
+                %li=possible_answer.title
+          -else
+            %ul This is an Open Question
 
     %p.btn-group
       = link_to 'Edit Topic', edit_poll_path(@poll), class: "btn btn-default" if admin?
@@ -50,7 +50,7 @@
               -reply.answers.each do |answer|
                 %dt{"class" => "text-capitalize"}=truncate(answer.question.try(:title))
                 %dd
-                  -if !answer.possible_answer.try(:check)
+                  -if !answer.possible_answer.try(:check) && answer.question.kind == 'choice'
                     %span{:class => 'glyphicon glyphicon-remove alert-danger'}
                   =answer.value.present? ? answer.value : (answer.possible_answer.nil? ? 'No Answer' : answer.possible_answer.try(:title))
 
