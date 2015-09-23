@@ -25,10 +25,10 @@
           -if question.kind == 'choice'
             %ul
               -question.possible_answers.each do |possible_answer|
-                -if possible_answer.check? && admin?
-                  %li
+                %li
+                  -if possible_answer.check? && admin?
                     %span{:class => 'glyphicon glyphicon-ok-circle' }
-                %li=possible_answer.title
+                  =possible_answer.title
           -else
             %ul This is an Open Question
 
