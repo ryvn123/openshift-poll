@@ -1,3 +1,9 @@
+#polls_per_month
+  :javascript
+    var selector = "#polls_per_month";
+    var data = #{@poll.serialize_for_graph};
+    Graph.instances.push(new Graph(selector, data, "column"));
+
 #answers_per_question
   -@poll.questions.each do |question|
     -if question.kind == "choice"
@@ -6,12 +12,6 @@
         var selector = "#answer_per_question_#{question.id}";
         var data = #{question.serialize_for_graph};
         Graph.instances.push(new Graph(selector, data, "column"));
-
-#polls_per_month
-  :javascript
-    var selector = "#polls_per_month";
-    var data = #{@poll.serialize_for_graph};
-    Graph.instances.push(new Graph(selector, data, "column"));
 
 -content_for :footer do
   :javascript
