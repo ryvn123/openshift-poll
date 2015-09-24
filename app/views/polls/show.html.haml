@@ -2,11 +2,10 @@
 
 / Nav tabs
 %ul.nav.nav-tabs
-  %li
+  %li.active
     =link_to "Questions", "#tab-questions", data: { toggle: "tab" }
   %li
     =link_to "Replies", "#tab-replies", data: { toggle: "tab" }
-
   -if admin?
     %li
       =link_to "Stats", "#tab-stats", data: { toggle: "tab" }
