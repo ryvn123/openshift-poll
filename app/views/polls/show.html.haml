@@ -50,9 +50,10 @@
               -reply.answers.each do |answer|
                 %dt{"class" => "text-capitalize"}=truncate(answer.question.try(:title))
                 %dd
-                  -if !answer.possible_answer.try(:check) && answer.question.kind == 'choice'
-                    %span{:class => 'glyphicon glyphicon-remove alert-danger'}
-                  =answer.value.present? ? answer.value : (answer.possible_answer.nil? ? 'No Answer' : answer.possible_answer.try(:title))
+                  -if answer.question.present?
+                    -if !answer.possible_answer.try(:check) && answer.question.try(:kind) == 'choice'
+                      %span{:class => 'glyphicon glyphicon-remove alert-danger'}
+                    =answer.value.present? ? answer.value : (answer.possible_answer.nil? ? 'No Answer' : answer.possible_answer.try(:title))
 
   -if admin?
  
