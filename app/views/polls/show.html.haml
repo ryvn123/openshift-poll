@@ -4,7 +4,7 @@
 %ul.nav.nav-tabs
   %li
     =link_to "Questions", "#tab-questions", data: { toggle: "tab" }
-  %li.active
+  %li
     =link_to "Replies", "#tab-replies", data: { toggle: "tab" }
 
   -if admin?
@@ -14,7 +14,7 @@
       =link_to "Results", "#tab-results", data: { toggle: "tab" }
 
 .tab-content
-  #tab-questions.tab-pane
+  #tab-questions.tab-pane.active
     %h2 Questions
 
     %ul
@@ -37,7 +37,7 @@
       = link_to 'Add question', new_poll_question_path(@poll), class: "btn btn-default" if admin?
       = link_to 'Take Poll', new_poll_reply_path(@poll), class: "btn btn-default"
 
-  #tab-replies.tab-pane.active
+  #tab-replies.tab-pane
     %h2 Replies
 
     -@pollreplies.each do |reply|
