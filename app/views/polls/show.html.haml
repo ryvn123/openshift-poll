@@ -77,15 +77,13 @@
             "style" => "text-align:right; width:" + (correct_ans.to_f / total_ans.to_f * 100).to_s + "%;"}
         -if question.kind == 'open' && !question.nil?
           %small="Open Ended"
-          %p
+          %ol
             -question.answers.each do |answer|
-              %span{"class" => "text-lowercase"}
+              %li{"class" => "text-lowercase"}
                 -if answer.value.empty?
-                  na
+                  No Answer
                 -else
                   =answer.value
-                %strong 
-                  |
 
     #tab-stats.tab-pane
       =render "stats"
