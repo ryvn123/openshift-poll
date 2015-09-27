@@ -4,16 +4,16 @@
   -@polls.each do |poll|
     %li
       %p
-        -if admin?
+        -if current_user
           =link_to poll.title, poll
         -else
           =poll.title
 
       %p.btn-group.btn-group-xs
-        = link_to 'Edit', edit_poll_path(poll.id), class: "btn btn-default" if admin?
+        = link_to 'Edit', poll, class: "btn btn-default" if admin?
         = link_to 'Add question', new_poll_question_path(poll.id), class: "btn btn-default" if admin?
-        = link_to 'Delete', poll_path(poll.id), method: :delete, class: 'btn btn-default', data: {confirm: 'This will delete all questions in the poll. Are you sure?'} if admin?
-        = link_to 'Take Poll', new_poll_reply_path(poll.id), class: "btn btn-default"
+        = link_to 'Delete', poll_path(poll.id), method: :delete, class: "btn btn-default", data: {confirm: 'This will delete all questions in the poll. Are you sure?'} if admin?
+        = link_to 'Take Poll', new_poll_reply_path(poll.id), class: "btn btn-default" if current_user
 
 -if admin?
   %p= link_to 'New Poll', new_poll_path, class: "btn btn-primary"

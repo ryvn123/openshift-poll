@@ -1,5 +1,7 @@
 == README
 
+Polling application
+
 Notes to dump SQL database
 
 mysqldump -h $OPENSHIFT_MYSQL_DB_HOST -u $OPENSHIFT_MYSQL_DB_USERNAME --password=$OPENSHIFT_MYSQL_DB_PASSWORD $OPENSHIFT_APP_NAME > backup.sql

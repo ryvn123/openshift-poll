@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20150201052456) do
   add_index "possible_answers", ["question_id"], name: "index_possible_answers_on_question_id"
 
   create_table "questions", force: :cascade do |t|
-    t.string   "title"
+    t.text     "title"
     t.string   "kind"
     t.integer  "poll_id"
     t.datetime "created_at", null: false
@@ -54,11 +54,13 @@ ActiveRecord::Schema.define(version: 20150201052456) do
 
   create_table "replies", force: :cascade do |t|
     t.integer  "poll_id"
+    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   add_index "replies", ["poll_id"], name: "index_replies_on_poll_id"
+  add_index "replies", ["user_id"], name: "index_replies_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
