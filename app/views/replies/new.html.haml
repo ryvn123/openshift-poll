@@ -5,4 +5,4 @@
     =render c.object.question.kind, c: c
   %p
     =f.hidden_field :user_id, :value => current_user.try(:id)
-    =f.submit "Finish poll", class: "btn btn-primary"
+    =f.submit "Finish poll", class: "btn btn-primary", id: "form-submit", data: { disable_with: "Please wait..." }
