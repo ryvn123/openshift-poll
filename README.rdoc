@@ -4,7 +4,6 @@ Polling application
 
 Notes to dump SQL database
 
-mysqldump -h $OPENSHIFT_MYSQL_DB_HOST -u $OPENSHIFT_MYSQL_DB_USERNAME --password=$OPENSHIFT_MYSQL_DB_PASSWORD $OPENSHIFT_APP_NAME > backup.sql
-
+mysqldump --password=$OPENSHIFT_MYSQL_DB_PASSWORD -h $OPENSHIFT_MYSQL_DB_HOST -P $OPENSHIFT_MYSQL_DB_PORT -u $OPENSHIFT_MYSQL_DB_USERNAME $OPENSHIFT_GEAR_NAME --add-drop-table > $OPENSHIFT_DATA_DIR/backup.sql
 mysql $OPENSHIFT_APP_NAME < backup.sql
 
