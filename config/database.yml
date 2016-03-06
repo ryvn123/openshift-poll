@@ -12,13 +12,16 @@ mysql: &mysql
 
 postgresql: &postgresql
   adapter: postgresql
-  database: <%=ENV['OPENSHIFT_APP_NAME']%>
-  username: <%=ENV['OPENSHIFT_POSTGRESQL_DB_USERNAME']%>
-  password: <%=ENV['OPENSHIFT_POSTGRESQL_DB_PASSWORD']%>
-  host:     <%=ENV['OPENSHIFT_POSTGRESQL_DB_HOST']%>
-  port:     <%=ENV['OPENSHIFT_POSTGRESQL_DB_PORT']%>
-  min_messages: ERROR
-  reconnect: false
+  database: cp2mpoll_production
+  username: cp2mpoll
+  password: <%= ENV['CP2MPOLL_DATABASE_PASSWORD'] %>
+#  database: <%=ENV['OPENSHIFT_APP_NAME']%>
+#  username: <%=ENV['OPENSHIFT_POSTGRESQL_DB_USERNAME']%>
+#  password: <%=ENV['OPENSHIFT_POSTGRESQL_DB_PASSWORD']%>
+#  host:     <%=ENV['OPENSHIFT_POSTGRESQL_DB_HOST']%>
+#  port:     <%=ENV['OPENSHIFT_POSTGRESQL_DB_PORT']%>
+#  min_messages: ERROR
+#  reconnect: false
 
 defaults: &defaults
   pool: 5
@@ -34,4 +37,4 @@ test: &test
 
 production:
   <<: *defaults
-  <<: *<%= ENV['RAILS_DB'] || "mysql" %>
+  <<: *<%= ENV['RAILS_DB'] || "postgresql" %>

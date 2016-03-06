@@ -1,0 +1,7 @@
+{
+  "name": "CP2M Poll app",
+  "description": "For CP2M Tech Seminar",
+  "image": "heroku/ruby",
+  "keywords": ["ruby", "rails" ],
+  "addons": [ "heroku-postgresql" ]
+}
