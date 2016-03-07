@@ -21,7 +21,7 @@ class PollSerializer
     end
 
     def answers_per_question question
-      answers_per_question = question.answers.group_by(&:possible_answer)
+      answers_per_question = question.answers.group_by(&:possible_answer).sort
       data = answers_per_question.map { |possible_answer, answers| answers.length }
       series = answers_per_question.map { |possible_answer, answers| possible_answer.nil? ? 'No Answer' : possible_answer.try(:title) }
       colors = answers_per_question.map { |possible_answer, answers| (possible_answer.nil? ? '#d9534f' : possible_answer.check? ? 'grey' : '#d9534f')  }
