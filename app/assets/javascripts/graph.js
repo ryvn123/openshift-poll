@@ -31,7 +31,8 @@ Graph.prototype.render = function() {
   // Set chart options
   var options = {'title': this.data.title,
                  'width':400,
-                 'height':300,
+                 'height':400,
+                 'hAxis': {slantedText:true, slantedTextAngle:345 },
                  'legend': { position: "none" }
                 };
 
